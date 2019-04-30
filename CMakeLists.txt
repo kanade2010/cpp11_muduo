@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.8.7)
-project (ws_tcp_server)
+project (cpp11_muduo)
 
 ###
 # variables
