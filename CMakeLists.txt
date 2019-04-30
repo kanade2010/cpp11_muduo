@@ -6,6 +6,7 @@ project (ws_tcp_server)
 ###
 set(SOURCES_DIRECTORY ${PROJECT_SOURCE_DIR}/sources)
 set(INCLUDES_DIRECTORY ${PROJECT_SOURCE_DIR}/includes)
+set(EXAMPLE_DIRECTORY ${PROJECT_SOURCE_DIR}/example)
 
 set(MUDUO_LOGGER_INCLUDES ${INCLUDES_DIRECTORY}/muduo_logger)
 set(MUDUO_NETWORK_INCLUDES ${INCLUDES_DIRECTORY}/muduo_network)
@@ -67,7 +68,7 @@ endforeach()
 #message("muduo_network_sources: ${muduo_network_sources}")
 
 set(example_server_sources
-    ${SOURCES_DIRECTORY}/example/example_server.cpp
+    ${EXAMPLE_DIRECTORY}/muduo_server/example_server.cpp
 )
 
 ###
@@ -95,3 +96,7 @@ target_link_libraries(example_server async_logging
 								     muduo_server
                                      pthread)
 
+###
+#sub project
+###
+add_subdirectory(${EXAMPLE_DIRECTORY}/http_server)

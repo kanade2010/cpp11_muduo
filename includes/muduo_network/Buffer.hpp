@@ -61,6 +61,13 @@ public:
     assert(len <= writableBytes());
     m_writerIndex += len;
   }
+  
+  const char* findCRLF() const
+  {
+    // FIXME: replace with memmem()?
+    const char* crlf = std::search(peek(), beginWrite(), kCRLF, kCRLF+2);
+    return crlf == beginWrite() ? NULL : crlf;
+  }
 
   void unwrite(size_t len)
   {
@@ -82,6 +89,13 @@ public:
     {
       retrieveAll();
     }
+  }
+
+  void retrieveUntil(const char* end)
+  {
+    assert(peek() <= end);
+    assert(end <= beginWrite());
+    retrieve(end - peek());
   }
 
   void retrieveAll()
@@ -116,6 +130,11 @@ public:
     }
   }
 
+  void append(const std::string& str)
+  {
+    append(str.c_str(), str.size());
+  }
+
   void append(const char* data/*restrict data*/, size_t len)
   {
     if (writableBytes() < len)
@@ -142,6 +161,8 @@ private:
   {return &*m_buffer.begin(); }
 
 private:
+  static const char kCRLF[];
+
 	std::vector<char> m_buffer;
 	size_t m_readerIndex;
 	size_t m_writerIndex;

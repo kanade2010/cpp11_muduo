@@ -6,7 +6,9 @@
 
 using namespace muduo;
 
-const ssize_t kExtraBufferSize = 20480;
+const ssize_t kExtraBufferSize = 10240;
+
+const char Buffer::kCRLF[] = "\r\n";
 
 const size_t Buffer::kCheapPrepend;
 const size_t Buffer::kInitialSize;
