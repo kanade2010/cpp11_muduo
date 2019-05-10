@@ -83,7 +83,10 @@ void TcpServer::newConnetion(int sockfd, const InetAddress& peerAddr)
 void TcpServer::removeConnection(const TcpConnectionPtr& conn)
 {
   // FIXME: unsafe
+  //LOG_TRACE << "trace conn use " << conn->name() << " used count " << conn.use_count();
   p_loop->runInLoop(std::bind(&TcpServer::removeConnectionInLoop, this, conn));
+  //LOG_TRACE << "trace conn use " << conn->name() << " used count " << conn.use_count();
+
 }
 
 void TcpServer::removeConnectionInLoop(const TcpConnectionPtr& conn)
@@ -92,22 +95,19 @@ void TcpServer::removeConnectionInLoop(const TcpConnectionPtr& conn)
   LOG_INFO << "TcpServer::removeConnectionInLoop [" << m_name
            << "] - connection " << conn->name();
   
-  LOG_TRACE << "trace conn use " << conn->name() << " used count " << conn.use_count();
+  //LOG_TRACE << "trace conn use " << conn->name() << " used count " << conn.use_count();
   size_t n = m_connectionsSet.erase(conn);
   (void)n;
   assert(n == 1);
-  //size_t n = m_connectionsMap.erase(conn->name());
-  //(void)n;
-  //assert(n == 1);
-  LOG_TRACE << "trace conn use " << conn->name() << " used count " << conn.use_count();
+  //LOG_TRACE << "trace conn use " << conn->name() << " used count " << conn.use_count();
 
   if(m_closeCallBack){
     m_closeCallBack(conn);
   }
 
-  LOG_TRACE << "trace conn use " << conn->name() << " used count " << conn.use_count();
+  //LOG_TRACE << "trace conn use " << conn->name() << " used count " << conn.use_count();
 
-  assert(conn.use_count() == 2);
+  //assert(conn.use_count() == 2);
 
   EventLoop* ioLoop = conn->getLoop();
   ioLoop->queueInLoop(//´ËÊ±µÄConnÎª×îºóÒ»¸öshared_ptr.Àë¿ª×÷ÓÃÓÚºóÎö¹¹´ËTcpConnection.

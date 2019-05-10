@@ -257,8 +257,11 @@ void TcpConnection::handleClose()
   p_channel->disableAll();
 
   TcpConnectionPtr guardThis(shared_from_this());
+  //LOG_TRACE << "trace conn use " << name() << " used count " << guardThis.use_count();
 
-  m_closeCallBack(guardThis); // to  Tcpserver ConnMap resource.
+  m_closeCallBack(guardThis); // to  Tcpserver ConnSet resource.
+  //LOG_TRACE << "trace conn use " << name() << " used count " << guardThis.use_count();
+
 }
 
 void TcpConnection::connectDestroyed()
